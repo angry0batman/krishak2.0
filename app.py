@@ -16,13 +16,13 @@ def home():
 def predict():
     if request.method == 'POST':
         form_data = {
-            'crop': request.form['crop'],
-            'precipitation': request.form['precipitation'],
-            'specific_humidity': request.form['specific_humidity'],
-            'relative_humidity': request.form['relative_humidity'],
-            'temperature': request.form['temperature']
+            'crop': request.form['Crop'],
+            'precipitation': request.form['Precipitation (mm day-1)'],
+            'specific_humidity': request.form['Specific Humidity at 2 Meters (g/kg)'],
+            'relative_humidity': request.form['Relative Humidity at 2 Meters (%)'],
+            'temperature': request.form['Temperature at 2 Meters (C)']
         }
-        
+
         crop = form_data['crop']
         precipitation = float(form_data['precipitation'])
         specific_humidity = float(form_data['specific_humidity'])
@@ -31,7 +31,10 @@ def predict():
         
         # Convert crop to numeric
         crop_mapping = {'Cocoa, beans': 0, 'Oil palm fruit': 1, 'Rice, paddy': 2, 'Rubber, natural': 3}
-        crop = crop_mapping[crop]
+        crop = crop_mapping.get(crop, -1)
+        
+        if crop == -1:
+            return render_template('index.html', form_data=form_data, prediction='Invalid crop selected')
 
         # Prepare features array
         features = np.array([[crop, precipitation, specific_humidity, relative_humidity, temperature]])

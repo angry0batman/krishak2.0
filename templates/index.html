@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Yield Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input, select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Crop Yield Prediction</h2>
+        <form action="/predict" method="POST">
+            <label for="Crop">Crop:</label>
+            <select id="Crop" name="Crop" required>
+                <option value="" disabled selected>Select your crop</option>
+                <option value="Cocoa, beans">Cocoa, beans</option>
+                <option value="Oil palm fruit">Oil palm fruit</option>
+                <option value="Rice, paddy">Rice, paddy</option>
+                <option value="Rubber, natural">Rubber, natural</option>
+            </select>
+            <label for="Precipitation">Precipitation (mm day-1):</label>
+            <input type="number" step="0.01" id="Precipitation" name="Precipitation (mm day-1)" required>
+            <label for="SpecificHumidity">Specific Humidity at 2 Meters (g/kg):</label>
+            <input type="number" step="0.01" id="SpecificHumidity" name="Specific Humidity at 2 Meters (g/kg)" required>
+            <label for="RelativeHumidity">Relative Humidity at 2 Meters (%):</label>
+            <input type="number" step="0.01" id="RelativeHumidity" name="Relative Humidity at 2 Meters (%)" required>
+            <label for="Temperature">Temperature at 2 Meters (C):</label>
+            <input type="number" step="0.01" id="Temperature" name="Temperature at 2 Meters (C)" required>
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction is not none %}
+            <div class="result">
+                <h3>Predicted Yield: {{ prediction }}</h3>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
