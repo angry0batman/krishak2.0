@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Predict Crop Yield</h1>
+        <form action="/predict" method="POST">
+            <label for="crop">Crop:</label>
+            <select id="crop" name="crop">
+                <option value="Cocoa, beans" {% if form_data.get('crop') == 'Cocoa, beans' %}selected{% endif %}>Cocoa, beans</option>
+                <option value="Oil palm fruit" {% if form_data.get('crop') == 'Oil palm fruit' %}selected{% endif %}>Oil palm fruit</option>
+                <option value="Rice, paddy" {% if form_data.get('crop') == 'Rice, paddy' %}selected{% endif %}>Rice, paddy</option>
+                <option value="Rubber, natural" {% if form_data.get('crop') == 'Rubber, natural' %}selected{% endif %}>Rubber, natural</option>
+            </select><br>
+            <label for="precipitation">Precipitation (mm/day):</label>
+            <input type="number" id="precipitation" name="precipitation" value="{{ form_data.get('precipitation', '') }}" required><br>
+            <label for="specific_humidity">Specific Humidity (g/kg):</label>
+            <input type="number" id="specific_humidity" name="specific_humidity" value="{{ form_data.get('specific_humidity', '') }}" required><br>
+            <label for="relative_humidity">Relative Humidity (%):</label>
+            <input type="number" id="relative_humidity" name="relative_humidity" value="{{ form_data.get('relative_humidity', '') }}" required><br>
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" id="temperature" name="temperature" value="{{ form_data.get('temperature', '') }}" required><br>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction is not none %}
+            <h2>Prediction Result</h2>
+            <p>The predicted crop yield is: {{ prediction }}</p>
+            <h3>Entered Data:</h3>
+            <ul>
+                <li>Crop: {{ form_data['crop'] }}</li>
+                <li>Precipitation (mm/day): {{ form_data['precipitation'] }}</li>
+                <li>Specific Humidity (g/kg): {{ form_data['specific_humidity'] }}</li>
+                <li>Relative Humidity (%): {{ form_data['relative_humidity'] }}</li>
+                <li>Temperature (°C): {{ form_data['temperature'] }}</li>
+            </ul>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Crop Yield Prediction. All rights reserved.</p>
+    </footer>
+</body>
+</html>
