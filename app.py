@@ -5,7 +5,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load the trained model
-with open('crop_yield_model.pkl', 'rb') as file:
+with open('crop_yield_rf_model.pkl', 'rb') as file:
     model = pickle.load(file)
 
 @app.route('/')
@@ -30,7 +30,7 @@ def predict():
         temperature = float(form_data['temperature'])
         
         # Convert crop to numeric
-        crop_mapping = {'Cocoa, beans': 0, 'Oil palm fruit': 1, 'Rice, paddy': 2, 'Rubber, natural': 3}
+        crop_mapping = {'Cocoa, beans': 0, 'Oil palm fruit': 1, 'Rice, paddy': 2, 'Soybean': 3}
         crop = crop_mapping.get(crop, -1)
         
         if crop == -1:
